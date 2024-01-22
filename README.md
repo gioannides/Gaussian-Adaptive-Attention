@@ -1,4 +1,4 @@
-# GaussianAdaptiveAttention
+# Multi-Head Gaussian Adaptive Attention
 
 GaussianAdaptiveAttention is a PyTorch library providing modules for applying Gaussian adaptive attention mechanisms in neural networks. This library offers a novel approach to enhance neural network models with adaptive attention capabilities, inspired by Gaussian distribution principles.
 
