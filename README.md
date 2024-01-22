@@ -39,7 +39,8 @@ initial_c = 2 # The learnable scaled variance initial value
 padding_value = None # The value that the sequence has been padded with to be ignored during statistical parameter estimation
 eps = 1e-8 # The value to stabilize training (small epsilon value)
 
-attention_module = GaussianAdaptiveAttention(norm_axis, num_heads, num_gaussians, initial_c, learnable_weights, padding_value, eps)
+attention_module = GaussianAdaptiveAttention(norm_axis, num_heads, num_gaussians, \
+                                            initial_c, learnable_weights, padding_value, eps)
 ```
 
 ## Example
