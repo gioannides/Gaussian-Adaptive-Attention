@@ -69,5 +69,9 @@ class ExampleNetwork(nn.Module):
 
 Contributions to the GaussianAdaptiveAttention library are welcome!
 
+## License
+
+This project is licensed under Apache 2.0 - see the LICENSE file in the repository for details.
+
 -    **Report Issues**: Submit an issue on GitHub if you find bugs or potential improvements.
 -    **Submit Pull Requests**: Feel free to fork the repository and submit pull requests with your enhancements.
