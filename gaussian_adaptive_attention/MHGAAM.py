@@ -3,18 +3,19 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class GaussianAdaptiveAttention(nn.Module):
-    def __init__(self, norm_axis, num_gaussians, padding_value=None, initial_c=2, learnable_weights=True, eps=1e-8):
+    def __init__(self, norm_axis, num_gaussians, initial_c=2, eps=1e-8, learnable_weights=True, padding_value=None):
         super().__init__()
         self.norm_axis = norm_axis
         self.eps = eps
         self.num_gaussians = num_gaussians
         self.padding_value = padding_value
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # Learnable mean offsets for each Gaussian
-        self.mean_offsets = nn.Parameter(torch.zeros(num_gaussians))
+        self.mean_offsets = nn.Parameter(torch.zeros(num_gaussians, dtype=torch.float))
 
         # Initialize the scale factor 'c' as a learnable parameter
-        self.c = nn.Parameter(torch.full((num_gaussians,), initial_c))
+        self.c = nn.Parameter(torch.full((num_gaussians,), initial_c, dtype=torch.float))
 
         # Initialize weights
         if learnable_weights is True:
@@ -23,7 +24,6 @@ class GaussianAdaptiveAttention(nn.Module):
             if learnable_weights.shape[0] != num_gaussians:
                 raise ValueError(f"Provided weights must have length {num_gaussians}")
             self.weights = learnable_weights
-            self.register_buffer('fixed_weights', self.weights)
         else:
             raise TypeError("learnable_weights must be either True or a torch.Tensor of shape (num_gaussians,)")
 
@@ -42,7 +42,7 @@ class GaussianAdaptiveAttention(nn.Module):
         var = x_masked.var(dim=self.norm_axis, keepdim=True) + self.eps
 
         # Normalize weights
-        normalized_weights = F.softmax(self.weights, dim=0) if isinstance(self.weights, nn.Parameter) else self.fixed_weights
+        normalized_weights = F.softmax(self.weights, dim=0) if isinstance(self.weights, nn.Parameter) else self.weights
 
         # Mixture of Gaussians with learned mean offsets
         mixture = 0
@@ -59,10 +59,17 @@ class GaussianAdaptiveAttention(nn.Module):
 
 
 class MultiHeadGaussianAdaptiveAttention(nn.Module):
-    def __init__(self, norm_axis, num_heads, num_gaussians, learnable_weights=True, padding_value=None, eps=1e-8):
+    def __init__(self, norm_axis, num_heads, num_gaussians, initial_variance=2, learnable_weights=True, padding_value=None, eps=1e-8):
         super().__init__()
         self.num_heads = num_heads
-        self.attention_heads = nn.ModuleList([GaussianAdaptiveAttention(norm_axis, num_gaussians, padding_value, learnable_weights=learnable_weights, eps=eps) for _ in range(num_heads)])
+        self.norm_axis = norm_axis
+        self.num_gaussians = num_gaussians
+        self.padding_value = padding_value
+        self.eps = eps
+        self.learnable_weights = learnable_weights
+        self.initial_variance = initial_variance
+
+        self.attention_heads = nn.ModuleList([GaussianAdaptiveAttention(norm_axis=norm_axis, num_gaussians=num_gaussians, initial_c=initial_variance, eps=eps, learnable_weights=learnable_weights, padding_value=padding_value) for _ in range(num_heads)])
 
     def forward(self, x):
         # Validate chunk size
