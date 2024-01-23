@@ -15,7 +15,13 @@ class GaussianAdaptiveAttention(nn.Module):
         self.mean_offsets = nn.Parameter(torch.zeros(num_gaussians, dtype=torch.float))
 
         # Initialize the scale factor 'c' as a learnable parameter
-        self.c = nn.Parameter(torch.full((num_gaussians,), initial_c, dtype=torch.float))
+        if isinstance(initial_c, torch.Tensor):
+            if initial_c.shape[0] != num_gaussians:
+                raise ValueError(f"Provided standard deviation values must have length {num_gaussians}")
+            else:
+                self.c = nn.Parameter(initial_c.float())
+        else:
+            self.c = nn.Parameter(torch.full((num_gaussians,), initial_c, dtype=torch.float))
 
         # Initialize weights
         if learnable_weights is True:
