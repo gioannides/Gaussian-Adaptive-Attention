@@ -39,7 +39,7 @@ initial_c = 2 # The learnable scaled variance initial value
 padding_value = None # The value that the sequence has been padded with to be ignored during statistical parameter estimation
 eps = 1e-8 # The value to stabilize training (small epsilon value)
 
-attention_module = GaussianAdaptiveAttention(norm_axis, num_heads, num_gaussians, \
+attention_module = MultiHeadGaussianAdaptiveAttention(norm_axis, num_heads, num_gaussians, \
                                             initial_c, learnable_weights, padding_value, eps)
 ```
 
@@ -50,14 +50,14 @@ Here's a simple example demonstrating how to apply the GaussianAdaptiveAttention
 ```
 import torch
 import torch.nn as nn
-from gaussian_adaptive_attention import GaussianAdaptiveAttention
+from gaussian_adaptive_attention import GaussianAdaptiveAttention, MultiHeadGaussianAdaptiveAttention
 
 # Example neural network layer with Gaussian Adaptive Attention
 class ExampleNetwork(nn.Module):
     def __init__(self, ...):
         super(ExampleNetwork, self).__init__()
         # Initialize network layers here
-        self.attention = GaussianAdaptiveAttention(...)
+        self.attention = MultiHeadGaussianAdaptiveAttention(...)
 
     def forward(self, x):
         # Apply layers and attention
