@@ -32,12 +32,12 @@ from gaussian_adaptive_attention import GaussianAdaptiveAttention, MultiHeadGaus
 
 # Example usage
 ```
-norm_axis = 1 # Axis for learning Distributions on
-num_gaussians = 5 # Example number of Gaussians per head
+norm_axis = 1 # Input Tensor xxis for learning Gaussians on.
+num_gaussians = 5 # Example number of Gaussians per head.
 learnable_weights = True # Adjustable weights for the Gaussian Mixture, if set to False then the weights have to be provided as torch.full((num_gaussians,)
-initial_c = 2 # The learnable scaled variance initial value
+initial_c = 2 # The learnable scaled variance initial value.
 padding_value = None # The value that the sequence has been padded with to be ignored during statistical parameter estimation. None implies no padding.
-eps = 1e-8 # The value to stabilize training (small epsilon value)
+eps = 1e-8 # The value to stabilize training (small epsilon value).
 
 attention_module = MultiHeadGaussianAdaptiveAttention(norm_axis, num_heads, num_gaussians, \
                                             initial_c, learnable_weights, padding_value, eps)
