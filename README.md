@@ -32,7 +32,7 @@ from gaussian_adaptive_attention import GaussianAdaptiveAttention, MultiHeadGaus
 
 # Example usage
 ```
-norm_axis = 1 # Input Tensor xxis for learning Gaussians on.
+norm_axis = 1 # Input Tensor axis for learning Gaussians on.
 num_gaussians = 5 # Example number of Gaussians per head.
 learnable_weights = True # Adjustable weights for the Gaussian Mixture, if set to False then the weights have to be provided as torch.full((num_gaussians,)
 initial_c = 2 # The learnable scaled variance initial value.
