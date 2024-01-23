@@ -16,10 +16,11 @@ class GaussianAdaptiveAttention(nn.Module):
 
         # Initialize the scale factor 'c' as a learnable parameter
         if isinstance(initial_c, torch.Tensor):
+            
             if initial_c.shape[0] != num_gaussians:
                 raise ValueError(f"Provided standard deviation values must have length {num_gaussians}")
-            else:
-                self.c = nn.Parameter(initial_c.float())
+            self.c = nn.Parameter(initial_c.to(torch.float))
+            
         else:
             self.c = nn.Parameter(torch.full((num_gaussians,), initial_c, dtype=torch.float))
 
