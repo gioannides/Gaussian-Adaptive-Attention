@@ -64,6 +64,19 @@ class ExampleNetwork(nn.Module):
         x = self.attention(x)
         return x
 ```
+
+## Paper
+
+If you use the Gaussian Adaptive Attention, please cite our paper (https://arxiv.org/abs/2401.11143)
+
+@misc{ioannides2024gaussian,
+      title={Gaussian Adaptive Attention is All You Need: Robust Contextual Representations Across Multiple Modalities}, 
+      author={Georgios Ioannides and Aman Chadha and Aaron Elkins},
+      year={2024},
+      eprint={2401.11143},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
         
 ## Contributing
 
