@@ -3,13 +3,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class GaussianAdaptiveAttention(nn.Module):
-    def __init__(self, norm_axis, num_gaussians, initial_c=2, eps=1e-8, learnable_weights=True, padding_value=None):
+    def __init__(self, norm_axis, num_gaussians, initial_c=2, eps=1e-8, learnable_weights=True, padding_value=None, device=torch.device("cuda" if torch.cuda.is_available() else "cpu")):
         super().__init__()
         self.norm_axis = norm_axis
         self.eps = eps
         self.num_gaussians = num_gaussians
         self.padding_value = padding_value
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = device
 
         # Learnable mean offsets for each Gaussian
         self.mean_offsets = nn.Parameter(torch.zeros(num_gaussians, dtype=torch.float))
@@ -66,7 +66,7 @@ class GaussianAdaptiveAttention(nn.Module):
 
 
 class MultiHeadGaussianAdaptiveAttention(nn.Module):
-    def __init__(self, norm_axis, num_heads, num_gaussians, initial_variance=2, learnable_weights=True, padding_value=None, eps=1e-8):
+    def __init__(self, norm_axis, num_heads, num_gaussians, initial_variance=2, learnable_weights=True, padding_value=None, eps=1e-8, device=torch.device("cuda" if torch.cuda.is_available() else "cpu")):
         super().__init__()
         self.num_heads = num_heads
         self.norm_axis = norm_axis
@@ -76,7 +76,7 @@ class MultiHeadGaussianAdaptiveAttention(nn.Module):
         self.learnable_weights = learnable_weights
         self.initial_variance = initial_variance
 
-        self.attention_heads = nn.ModuleList([GaussianAdaptiveAttention(norm_axis=norm_axis, num_gaussians=num_gaussians, initial_c=initial_variance, eps=eps, learnable_weights=learnable_weights, padding_value=padding_value) for _ in range(num_heads)])
+        self.attention_heads = nn.ModuleList([GaussianAdaptiveAttention(norm_axis=norm_axis, num_gaussians=num_gaussians, initial_c=initial_variance, eps=eps, learnable_weights=learnable_weights, padding_value=padding_value, device=device) for _ in range(num_heads)])
 
     def forward(self, x):
         # Validate chunk size
