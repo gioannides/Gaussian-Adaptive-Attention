@@ -62,7 +62,7 @@ class MultiHeadGaussianAdaptiveAttention(nn.Module):
     def __init__(self, norm_axis, num_heads, num_gaussians, learnable_weights=True, padding_value=None, eps=1e-8):
         super().__init__()
         self.num_heads = num_heads
-        self.attention_heads = nn.ModuleList([MixtureOfGaussiansAttention(norm_axis, num_gaussians, padding_value, learnable_weights=learnable_weights, eps=eps) for _ in range(num_heads)])
+        self.attention_heads = nn.ModuleList([GaussianAdaptiveAttention(norm_axis, num_gaussians, padding_value, learnable_weights=learnable_weights, eps=eps) for _ in range(num_heads)])
 
     def forward(self, x):
         # Validate chunk size
