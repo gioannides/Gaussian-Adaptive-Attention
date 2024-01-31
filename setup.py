@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='gaussian_adaptive_attention',
-    version='0.1.1',
+    version='0.1.0',
     author='Georgios Ioannides',
     author_email='gioannid@alumni.cmu.edu',
     description='A Gaussian Adaptive Attention module for PyTorch',
