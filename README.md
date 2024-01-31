@@ -42,7 +42,7 @@ This example demonstrates the use of the `GaussianBlock` class, which encapsulat
 ```python
 import torch
 import torch.nn as nn
-from gaussian_adaptive_attention.gaussian_block import GaussianBlock
+from gaussian_adaptive_attention import GaussianBlock
 
 norm_axes = [1, 1, 1]  # Axes for each layer in the GaussianBlock.
 num_heads = [4, 4, 4]  # Number of attention heads for each layer.
