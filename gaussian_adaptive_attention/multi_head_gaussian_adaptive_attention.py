@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 
+from gaussian_adaptive_attention.gaussian_adaptive_attention import GaussianAdaptiveAttention
+
 class MultiHeadGaussianAdaptiveAttention(nn.Module):
     def __init__(self, norm_axis, num_heads, num_gaussians, padding_value=None, eps=1e-8):
         super().__init__()
