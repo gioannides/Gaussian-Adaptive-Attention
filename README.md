@@ -13,6 +13,12 @@ GaussianAdaptiveAttention is a PyTorch library providing modules for applying Ga
 Install GaussianAdaptiveAttention easily using pip:
 
 ```bash
+pip install gaussian-adaptive-attention==0.1.3
+```
+
+OR
+
+```bash
 pip3 install git+https://github.com/gioannides/GaussianAdaptiveAttention.git
 ```
 
