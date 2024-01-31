@@ -27,7 +27,7 @@ Import the GaussianAdaptiveAttention and MultiHeadGaussianAdaptiveAttention modu
 
 ```python3
 import torch
-from gaussian_adaptive_attention import GaussianAdaptiveAttention, MultiHeadGaussianAdaptiveAttention
+from gaussian_adaptive_attention import GaussianAdaptiveAttention, MultiHeadGaussianAdaptiveAttention, GaussianBlock
 ```
 
 # Example usage
@@ -43,26 +43,46 @@ attention_module = MultiHeadGaussianAdaptiveAttention(norm_axis, num_heads, num_
                                             initial_c, learnable_weights, padding_value, eps)
 ```
 
-## Example
+# Example Usage
+This example demonstrates the use of the `GaussianBlock` class, which encapsulates multiple layers of Gaussian Adaptive Attention.
 
-Here's a simple example demonstrating how to apply the GaussianAdaptiveAttention module in a neural network layer.
-
-```
+```python
 import torch
 import torch.nn as nn
-from gaussian_adaptive_attention import GaussianAdaptiveAttention, MultiHeadGaussianAdaptiveAttention
+from gaussian_adaptive_attention import GaussianBlock
 
-# Example neural network layer with Gaussian Adaptive Attention
+norm_axes = [1, 1, 1]  # Axes for each layer in the GaussianBlock.
+num_heads = [4, 4, 4]  # Number of attention heads for each layer.
+num_gaussians = [5, 5, 5]  # Number of Gaussians per head for each layer.
+num_layers = 3  # Total number of layers in the GaussianBlock.
+padding_value = None  # Padding value for sequences in the input tensor.
+eps = 1e-8  # Small epsilon value for numerical stability.
+
+# Initialize the GaussianBlock
+attention_block = GaussianBlock(norm_axes, num_heads, num_gaussians, num_layers, padding_value, eps)
+
+# Example neural network with GaussianBlock
 class ExampleNetwork(nn.Module):
-    def __init__(self, ...):
+    def __init__(self, input_dim, output_dim):
         super(ExampleNetwork, self).__init__()
-        # Initialize network layers here
-        self.attention = MultiHeadGaussianAdaptiveAttention(...)
+        # Initialize GaussianBlock for attention mechanism
+        self.attention_block = attention_block
+        # Initialize a linear layer
+        self.linear = nn.Linear(input_dim, output_dim)
 
     def forward(self, x):
-        # Apply layers and attention
-        x = self.attention(x)
+        # Apply GaussianBlock for attention
+        x = self.attention_block(x)
+        # Apply linear layer
+        x = self.linear(x)
         return x
+
+# Example usage
+input_dim = 128
+output_dim = 128
+model = ExampleNetwork(input_dim, output_dim)
+input_tensor = torch.rand(10, input_dim)  # Example input tensor
+output = model(input_tensor)
 ```
 
 ## Paper

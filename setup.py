@@ -12,7 +12,7 @@ setup(
     install_requires=[
         'torch==2.0.0+cu117',
     ],
-    url='https://github.com/gioannides/GaussianAdaptiveAttention',
+    url='https://github.com/gioannides/Gaussian-Adaptive-Attention',
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
