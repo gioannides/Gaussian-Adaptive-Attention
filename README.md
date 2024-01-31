@@ -74,7 +74,7 @@ output = model(input_tensor)
 
 ## Paper
 
-If you use the Gaussian Adaptive Attention, please cite our paper (https://arxiv.org/abs/2401.11143)
+If you use the Gaussian Adaptive Attention, please cite our paper (https://arxiv.org/abs/2401.11143). The source code for the experiments in the paper is coming soon!
 
 ```
 @misc{ioannides2024gaussian,
