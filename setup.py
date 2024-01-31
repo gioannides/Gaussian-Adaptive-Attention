@@ -1,21 +1,25 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='GaussianAdaptiveAttention',
+    name='gaussian_adaptive_attention',
     version='0.1.0',
     author='Georgios Ioannides',
     author_email='gioannid@alumni.cmu.edu',
-    packages=find_packages(),
-    description='A Python library implementing Gaussian Adaptive Attention in PyTorch.',
+    description='A Gaussian Adaptive Attention module for PyTorch',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
+    url='https://github.com/yourusername/GaussianAdaptiveAttention',
+    packages=find_packages(),
     install_requires=[
-        'torch==2.0.0+cu117',
+        'torch',
     ],
-    url='https://github.com/gioannides/Gaussian-Adaptive-Attention',
+    license='Apache 2.0',
     classifiers=[
-        "Programming Language :: Python :: 3",
-        "Operating System :: OS Independent",
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
     ],
 )
 
