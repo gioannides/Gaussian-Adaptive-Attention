@@ -18,7 +18,7 @@ class GaussianAdaptiveAttention(nn.Module):
         self.num_gaussians = num_gaussians
 
         self.mean_offsets = nn.Parameter(torch.zeros(num_gaussians, dtype=torch.float))
-        self.c = nn.Parameter(torch.randn(num_gaussians, dtype=torch.float))
+        self.c = nn.Parameter(torch.exp(torch.randn(num_gaussians, dtype=torch.float)))
 
     def forward(self, x, return_attention_details=False):
         if x.dim() < 2:
